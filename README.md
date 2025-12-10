@@ -10,7 +10,7 @@ Este repositorio contiene una implementación en C del programa `pvv` descrito e
 4. Calcular el costo mínimo cuando existe dicho ciclo.
 5. Visualizar el grafo actual.
 
-## Requisitos del curso aún pendientes
+## Lo que falta:
 
 - **Informe escrito**: no está incluido; debe elaborarse por separado explicando la técnica y decisiones.
 - **Pruebas adicionales**: el programa se probó con grafos pequeños de ejemplo, pero conviene crear más casos (5‑9 nodos como en la pauta).
@@ -127,9 +127,3 @@ Implementa las funciones anteriores:
 - Explicar por qué se escogió backtracking (grafos de hasta 9 nodos permiten fuerza bruta).
 - Describir el criterio de poda y cómo el BFS previo evita búsquedas innecesarias.
 - Incluir diagramas o tablas que detallen los archivos y módulos de este repositorio.
-
-## Trabajos futuros recomendados
-
-1. **Más pruebas**: automatizar una serie de inputs y verificar los resultados esperados.
-2. **Validaciones adicionales**: detectar aristas duplicadas o auto‑bucles al leer archivos.
-3. **Modo verbose**: añadir un comando que muestre rutas exploradas para fines educativos.
