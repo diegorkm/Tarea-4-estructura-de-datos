@@ -28,10 +28,11 @@ Este repositorio contiene una implementación en C del programa `pvv` descrito e
 │   └── ruta2.txt
 └── src
     ├── graph.c
-    ├── graph.h
     ├── main.c
     ├── tsp.c
-    └── tsp.h
+├── incs
+│   ├── graph.h
+│   └── tsp.h
 ```
 
 - `src/main.c`: interfaz de línea de comandos y orquestación de comandos `pvv`.
