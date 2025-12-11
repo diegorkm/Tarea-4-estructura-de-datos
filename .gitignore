@@ -1,0 +1,10 @@
+# Ignorar binarios y ejecutables
+*.exe
+*.o
+*.out
+pvv
+
+# Ignorar archivos del sistema
+.DS_Store
+Thumbs.db
+.vscode/

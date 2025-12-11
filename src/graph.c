@@ -1,20 +1,17 @@
 #include "graph.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+/*Reserva memoria para la matriz.*/
 static int **allocate_matrix(size_t node_count) {
     int **matrix = calloc(node_count, sizeof(int *));
-    if (!matrix) {
-        return NULL;
-    }
+    if (!matrix) return NULL;
+    
     for (size_t i = 0; i < node_count; ++i) {
         matrix[i] = malloc(node_count * sizeof(int));
         if (!matrix[i]) {
-            for (size_t j = 0; j < i; ++j) {
-                free(matrix[j]);
-            }
+            for (size_t j = 0; j < i; ++j) free(matrix[j]);
             free(matrix);
             return NULL;
         }
@@ -22,29 +19,25 @@ static int **allocate_matrix(size_t node_count) {
     return matrix;
 }
 
+/*Convierte letras a índices (A -> 0, B -> 1).*/
 size_t graph_index_from_label(char label) {
-    if (label >= 'A' && label <= 'Z') {
-        return (size_t)(label - 'A');
-    }
-    if (label >= 'a' && label <= 'z') {
-        return (size_t)(label - 'a');
-    }
+    if (label >= 'A' && label <= 'Z') return (size_t)(label - 'A');
+    if (label >= 'a' && label <= 'z') return (size_t)(label - 'a');
     return MAX_GRAPH_NODES;
 }
 
+/*Crea el grafo.*/
 Graph *graph_create(size_t node_count) {
     if (node_count == 0 || node_count > MAX_GRAPH_NODES) {
         fprintf(stderr, "El grafo debe tener entre 1 y %d nodos.\n", MAX_GRAPH_NODES);
         return NULL;
     }
-
     Graph *graph = malloc(sizeof(Graph));
-    if (!graph) {
-        perror("malloc");
-        return NULL;
-    }
+    if (!graph) { perror("malloc"); return NULL; }
+    
     graph->node_count = node_count;
     graph->weights = allocate_matrix(node_count);
+    
     if (!graph->weights) {
         perror("malloc");
         free(graph);
@@ -54,22 +47,20 @@ Graph *graph_create(size_t node_count) {
     return graph;
 }
 
+/*Limpia el grafo (pone todo en -1).*/
 void graph_clear(Graph *graph) {
-    if (!graph || !graph->weights) {
-        return;
-    }
+    if (!graph || !graph->weights) return;
     for (size_t i = 0; i < graph->node_count; ++i) {
         for (size_t j = 0; j < graph->node_count; ++j) {
             graph->weights[i][j] = -1;
         }
-        graph->weights[i][i] = 0;
+        graph->weights[i][i] = 0; 
     }
 }
 
+/*Libera la memoria.*/
 void graph_free(Graph **graph_ptr) {
-    if (!graph_ptr || !*graph_ptr) {
-        return;
-    }
+    if (!graph_ptr || !*graph_ptr) return;
     Graph *graph = *graph_ptr;
     if (graph->weights) {
         for (size_t i = 0; i < graph->node_count; ++i) {
@@ -86,16 +77,13 @@ static bool in_bounds(const Graph *graph, size_t index) {
 }
 
 int graph_weight(const Graph *graph, size_t from, size_t to) {
-    if (!in_bounds(graph, from) || !in_bounds(graph, to)) {
-        return -1;
-    }
+    if (!in_bounds(graph, from) || !in_bounds(graph, to)) return -1;
     return graph->weights[from][to];
 }
 
+/*Agrega una conexión.*/
 bool graph_add_edge(Graph *graph, char from_label, char to_label, int cost) {
-    if (!graph || cost < 0) {
-        return false;
-    }
+    if (!graph || cost < 0) return false;
 
     size_t from = graph_index_from_label(from_label);
     size_t to = graph_index_from_label(to_label);
@@ -108,14 +96,14 @@ bool graph_add_edge(Graph *graph, char from_label, char to_label, int cost) {
     return true;
 }
 
+/*Verifica conectividad usando BFS (Búsqueda en Anchura).*/
 bool graph_is_connected(const Graph *graph) {
-    if (!graph || graph->node_count == 0) {
-        return false;
-    }
+    if (!graph || graph->node_count == 0) return false;
+    
     bool visited[MAX_GRAPH_NODES] = {false};
     size_t queue[MAX_GRAPH_NODES];
-    size_t head = 0;
-    size_t tail = 0;
+    size_t head = 0, tail = 0;
+    
     visited[0] = true;
     queue[tail++] = 0;
 
@@ -130,19 +118,16 @@ bool graph_is_connected(const Graph *graph) {
     }
 
     for (size_t i = 0; i < graph->node_count; ++i) {
-        if (!visited[i]) {
-            return false;
-        }
+        if (!visited[i]) return false;
     }
     return true;
 }
 
 void graph_print(const Graph *graph) {
     if (!graph) {
-        puts("No existe un grafo inicializado. Use start <cantidad> primero.");
+        puts("No existe un grafo inicializado.");
         return;
     }
-
     printf("Grafo con %zu nodos (A-%c)\n", graph->node_count, (char)('A' + graph->node_count - 1));
     for (size_t i = 0; i < graph->node_count; ++i) {
         printf("%c:", (char)('A' + i));
