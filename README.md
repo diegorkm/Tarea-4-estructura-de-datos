@@ -63,6 +63,7 @@ pvv start 5          # crea grafo con 5 nodos (A-E)
 pvv read ruta.txt    # lee rutas, verifica conectividad y TSP
 pvv graph            # imprime el grafo
 pvv help             # muestra ayuda
+pvv clear            # limpia la pantalla
 pvv exit             # libera memoria y termina
 ```
 
