@@ -12,10 +12,8 @@ Este repositorio contiene una implementación en C del programa `pvv` descrito e
 
 ## Lo que falta:
 
-- **Informe escrito**: no está incluido; debe elaborarse por separado explicando la técnica y decisiones.
 - **Pruebas adicionales**: el programa se probó con grafos pequeños de ejemplo, pero conviene crear más casos (5‑9 nodos como en la pauta).
 - **Compatibilidad Windows**: el código es estándar C y el `Makefile` puede usarse con MinGW/WSL, pero no se ha verificado en ese entorno.
-- **Documentación extensa**: en este archivo se detallan los módulos y funciones, pero el informe debe complementar con diagramas/justificaciones.
 
 ## Estructura del repositorio
 
@@ -123,9 +121,3 @@ Implementa las funciones anteriores:
   1. Si se visitaron todos los nodos, intenta cerrar el ciclo regresando a `A`.
   2. Actualiza el resultado si el costo total mejora.
   3. Explora nodos no visitados conectados al actual, haciendo poda si el costo acumulado ya supera el mejor encontrado.
-
-## Sugerencias para el informe
-
-- Explicar por qué se escogió backtracking (grafos de hasta 9 nodos permiten fuerza bruta).
-- Describir el criterio de poda y cómo el BFS previo evita búsquedas innecesarias.
-- Incluir diagramas o tablas que detallen los archivos y módulos de este repositorio.
